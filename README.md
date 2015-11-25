@@ -15,13 +15,13 @@ echo 'export PATH="~/Scripts:$PATH"' >> ~/.bash_profile
 ## Usage
 
 **Prepare WordPress plugin package**
-
 ```shell
-wp-plugin-package $DIRECTORY $VERSION
+# wp-plugin-package $PLUGIN_DIRECTORY $VERSION $DESTINATION
+wp-plugin-package . 1.0 ~/releases
 ```
 
 **Release WordPress plugin to .org**
-
 ```shell
-wp-plugin-release $PACKAGE
+# wp-plugin-release-org $PACKAGE
+wp-plugin-release-org ~/releases/mailchimp-for-wp-3.0.zip
 ```
