@@ -1,0 +1,43 @@
+#!/bin/bash
+PACKAGE=$1
+printf "\n";
+
+# Find package
+if [ ! -e $PACKAGE ]; then
+	printf "Package $PACKAGE does not exist. \n\nRun wp-plugin-package on the Git folder to create it.\n";
+	exit 1;
+fi;
+
+# Unzip to tmp location
+echo "Unzipping package."
+unzip -o $PACKAGE -d /tmp/plugin-package >/dev/null
+cd /tmp/plugin-package/*
+
+# find version number
+NAME=${PWD##*/}
+VERSION=$(cat *.php | grep "^Version: \(.*\)" | tr ' ' '\n' | tail -1)
+
+if [ -z $VERSION ]; then
+	echo "Unable to find version number - is the package corrupt?"
+	exit 1;
+fi;
+
+# Print some info
+echo "Plugin: $NAME";
+echo "Version: $VERSION";
+
+echo "Do you want to release $NAME v$VERSION to WordPress.org (y): "
+read GO
+if [ "$GO" != "y" ]; then
+	exit 1;
+fi;
+
+# Checkout SVN repo to some location
+
+# Add our changes to ./trunk
+
+# Remove locally deleted files
+
+# Copy trunk to ./tags/VERSION
+
+# Push to .org

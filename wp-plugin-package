@@ -18,7 +18,7 @@ fi
 
 # Install NPM deps
 if [ -e package.json ] && [ ! -d node_modules ]; then
-		sudo npm install
+	sudo npm install
 fi
 
 # Run Gulp
@@ -35,14 +35,14 @@ fi
 if [ -e composer.json ]; then
 		# Make sure dev-dependencies are not installed
 		if [ -d vendor/phpunit ]; then composer update --no-dev --prefer-dist; fi;
-		composer dump-autoload --optimize
-fi
+			composer dump-autoload --optimize
+		fi
 
 # Bump version in readme.txt, *.json en ./*.php files
 sed -i.bak "s/Stable tag: .*/Stable tag: $VERSION/g" readme.txt
 sed -i.bak "s/\"version\": .*/\"version\": \"$VERSION\",/g" *.json
 sed -i.bak "s/define( '\(.*\)_VERSION', .*/define( '\1_VERSION', '$VERSION' );/g; s/Version: .*/Version: $VERSION/g" *.php
-rm *.bak
+	rm *.bak
 
 # Add  untracked changes to Git
 git add languages/.
