@@ -1,0 +1,66 @@
+#!/bin/bash
+
+PLUGIN_DIRECTORY=$1
+VERSION=$2
+
+if [ ! -d $PLUGIN_DIRECTORY  ]; then
+		echo -e "Plugin directory does not exist"
+	else
+		# Traverse into plugin directory
+		cd $PLUGIN_DIRECTORY
+
+		if [ -e .tx/config ]; then
+			tx pull
+			for file in `find languages/. -name "*.po"` ; do msgfmt -o ${file/.po/.mo} $file; done
+		fi
+
+		# Install NPM deps
+		if [ -e package.json ] && [ ! -d node_modules ]; then
+				sudo npm install
+		fi
+
+		# Run Gulp
+		if [ -e gulpfile.js ]; then
+			gulp
+		fi
+
+		# Run Grunt
+		if [ -e Gruntfile.js ];	then
+			grunt
+		fi
+
+		# Run Composer
+		if [ -e composer.json ]; then
+				# Make sure dev-dependencies are not installed
+				if [ -d vendor/phpunit ]; then composer update --no-dev --prefer-dist; fi;
+				composer dump-autoload --optimize
+		fi
+
+		# Bump version in readme.txt, *.json en ./*.php files
+
+		# Add  untracked changes to Git
+		git add languages/.
+		git commit -m "updated languages"
+
+		git add vendor/.
+		git commit -m "updated autoloader"
+
+		git add assets/.
+		git commit -m "updated assets"
+
+		git add .
+		git commit -m "[Pre-Release] Preparing v$VERSION"
+
+		# Create zip file (excludes files from .gitattributes)
+		echo "Creating release package"
+		git archive master --format=zip --prefix=$PLUGIN_DIRECTORY/ --output=/tmp/$PLUGIN_DIRECTORY.zip
+
+		# Move to releases folder
+		echo "Moving from temporary folder"
+		mv /tmp/$PLUGIN_DIRECTORY.zip ~/Code/releases/$PLUGIN_DIRECTORY-$VERSION.zip
+
+		# Go back to where we came from
+		cd ..
+
+		echo "$PLUGIN_DIRECTORY-$VERSION.zip created!"
+fi
