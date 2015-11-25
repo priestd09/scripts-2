@@ -39,7 +39,4 @@ echo "Creating release package"
 git archive master --format=zip --prefix=$PLUGIN_NAME/ --output=/tmp/$PLUGIN_NAME.zip
 mv /tmp/$PLUGIN_NAME.zip $DEST
 
-echo "$DEST created!"
-
-# Go back to where we came from
-cd ..
+echo $DEST

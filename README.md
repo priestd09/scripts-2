@@ -36,7 +36,7 @@ wp-plugin-release-org ~/releases/mailchimp-for-wp-3.0.zip
 
 This bumps the version number in the main plugin file, `readme.txt` and `*.json`.
 
-```
+```shell
 # dvkf bump-version $VERSION
 dvkf bump-version 1.0.1
 ```
@@ -45,7 +45,7 @@ dvkf bump-version 1.0.1
 
 Installs NPM deps (if needed) and runs Gulp or Grunt.
 
-```
+```shell
 dvkf build-assets
 ```
 
@@ -53,7 +53,7 @@ dvkf build-assets
 
 Pulls updated language files from Transifex and creates `.mo` files out of it.
 
-```
+```shell
 dvkf build-language-files
 ```
 
@@ -61,7 +61,7 @@ dvkf build-language-files
 
 Removes all developer dependencies and creates an optimized autoloader.
 
-```
+```shell
 dvkf build-autoloader
 ```
 
@@ -69,6 +69,6 @@ dvkf build-autoloader
 
 Adds assets, languages & autoloader to Git.
 
-```
+```shell
 dvkf gitadd
 ```
