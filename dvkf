@@ -68,8 +68,7 @@ build-autoloader()
 	# Run Composer
 	if [ -e composer.json ]; then
 			# Make sure dev-dependencies are not installed
-			if [ -d vendor/phpunit ]; then composer update --no-dev --prefer-dist; fi;
-				composer dump-autoload --optimize
+			if [ -d vendor/phpunit ]; then composer update --no-dev --prefer-dist --optimize-autoloader; fi;
 	fi
 }
 # Lets you call the functions
