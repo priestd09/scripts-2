@@ -25,7 +25,9 @@ VERSION=$(cat *.php | grep "^Version: \(.*\)" | tr ' ' '\n' | tail -1)
 # Find changelog
 # TODO
 # grep "^== $VERSION (at least 1 newline, anything until next ^==)
-CHANGELOG=""
+CHANGELOG=$(cat CHANGELOG.md)
+echo $CHANGELOG
+exit 1;
 
 if [ -z $VERSION ]; then
 	echo "Unable to find version number - is the package corrupt?"
