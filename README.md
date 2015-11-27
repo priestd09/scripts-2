@@ -72,3 +72,9 @@ Adds assets, languages & autoloader to Git.
 ```shell
 dvkf gitadd
 ```
+
+#### Copy `CHANGELOG.md` to `readme.txt` changelog section.
+
+```shell
+dvkf replace-changelog
+```
