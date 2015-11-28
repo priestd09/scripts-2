@@ -10,7 +10,13 @@
 PLUGIN_DIRECTORY=$1
 VERSION=$2
 
-if [ ! -d $PLUGIN_DIRECTORY  ]; then
+# Require at least 2 parameters: DIR and VERSION
+if [ "$#" -lt 2 ]; then
+    echo "2 parameters expected, $# found"
+    exit 1;
+fi
+
+if [[ ! -d "$PLUGIN_DIRECTORY"  ]]; then
 	echo -e "Plugin directory does not exist"
 	exit 1;
 fi;
@@ -36,7 +42,7 @@ git commit -m "[Pre-Release] v$VERSION"
 
 # Create zip file (excludes files from .gitattributes)
 echo "Creating release package"
-git archive master --format=zip --prefix=$PLUGIN_NAME/ --output=/tmp/$PLUGIN_NAME.zip
-mv /tmp/$PLUGIN_NAME.zip $DEST
+git archive master --format=zip --prefix="$PLUGIN_NAME/" --output="/tmp/$PLUGIN_NAME.zip"
+mv "/tmp/$PLUGIN_NAME.zip" "$DEST"
 
-echo $DEST
+echo "$DEST"

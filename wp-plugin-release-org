@@ -1,10 +1,15 @@
 #!/bin/bash
 PACKAGE=$1
 SVN_DIR=${SVN_DIR:-"/tmp/svn"}
-printf "\n";
+
+# Require at least 1 parameter: Package
+if [ "$#" -lt 1 ]; then
+    echo "1 parameters expected, $# found"
+    exit 1;
+fi
 
 # Find package
-if [ ! -e $PACKAGE ]; then
+if [[ ! -e "$PACKAGE" ]]; then
 	printf "Package $PACKAGE does not exist. \n\nRun wp-plugin-package on the Git folder to create it.\n";
 	exit 1;
 fi;
@@ -12,14 +17,14 @@ fi;
 # Unzip to tmp location
 echo "Unzipping package."
 rm -rf /tmp/plugin-package/*
-unzip -o $PACKAGE -d /tmp/plugin-package >/dev/null
+unzip -o "$PACKAGE" -d /tmp/plugin-package >/dev/null
 cd /tmp/plugin-package/*
 
 # find name & version number
 NAME=${PWD##*/}
 VERSION=$(cat *.php | grep "^Version: \(.*\)" | tr ' ' '\n' | tail -1)
 
-if [ -z $VERSION ]; then
+if [[ -z "$VERSION" ]]; then
 	echo "Unable to find version number - is the package corrupt?"
 	exit 1;
 fi;
@@ -36,12 +41,12 @@ fi;
 # Checkout SVN repo to some location
 if [ ! -d "$SVN_DIR/$NAME" ]; then
 	SVN_REPO="http://plugins.svn.wordpress.org/$NAME";
-	svn checkout $SVN_REPO -N "/tmp/svn/$NAME" >/dev/null
+	svn checkout "$SVN_REPO" -N "/tmp/svn/$NAME" >/dev/null
 fi;
 
 cd "$SVN_DIR/$NAME";
 
-svn update trunk >/dev/null
+svn update trunk > /dev/null
 
 # Add our changes to ./trunk
 rm -r trunk

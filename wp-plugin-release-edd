@@ -6,8 +6,14 @@ LOCATION=$2
 API_URL=$3
 API_DOWNLOAD_ID=$4
 
+# Require at least 4 parameters: Package, Download Location, API URL & API Download ID.
+if [ "$#" -lt 4 ]; then
+    echo "4 parameters expected, $# found"
+    exit 1;
+fi
+
 # Find package
-if [ ! -e $PACKAGE ]; then
+if [[ ! -e "$PACKAGE" ]]; then
 	printf "Package $PACKAGE does not exist. \n\nRun wp-plugin-package on the Git folder to create it.\n";
 	exit 1;
 fi;
@@ -15,7 +21,7 @@ fi;
 # Unzip to tmp location & traverse into plugin dir
 echo "Unzipping package."
 rm -rf /tmp/plugin-package/*
-unzip -o $PACKAGE -d /tmp/plugin-package >/dev/null
+unzip -o "$PACKAGE" -d /tmp/plugin-package >/dev/null
 cd /tmp/plugin-package/*
 
 # find name & version number
@@ -26,10 +32,8 @@ VERSION=$(cat *.php | grep "^Version: \(.*\)" | tr ' ' '\n' | tail -1)
 # TODO
 # grep "^== $VERSION (at least 1 newline, anything until next ^==)
 CHANGELOG=$(cat CHANGELOG.md)
-echo $CHANGELOG
-exit 1;
 
-if [ -z $VERSION ]; then
+if [[ -z "$VERSION" ]]; then
 	echo "Unable to find version number - is the package corrupt?"
 	exit 1;
 fi;
@@ -39,13 +43,13 @@ echo "Plugin: $NAME";
 echo "Version: $VERSION";
 printf "\nProceed? (y): "
 read CONFIRM
-if [ "$CONFIRM" != "y" ]; then
+if [[ "$CONFIRM" != "y" ]]; then
 	exit 1;
 fi;
 
 # Copy package to server
 echo "Copying package to $LOCATION"
-scp $PACKAGE $LOCATION
+scp "$PACKAGE" "$LOCATION"
 
 # Bump version via custom EDD API
 echo "Bumping version to v$VERSION on $API_URL"
