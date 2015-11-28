@@ -28,6 +28,7 @@ DEST=${3:-".."}
 DEST="$DEST/$PLUGIN_NAME-$VERSION.zip"
 
 # Build all the things, then bump version
+dvkf update-changelog
 dvkf build-language-files
 dvkf build-assets
 dvkf build-autoloader
