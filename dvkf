@@ -4,7 +4,9 @@
 # A bunch of helper functions #
 ###############################
 update-changelog() {
-	php "`dirname $0`/php/replace-changelog.php"
+	echo "$(dirname $0)";
+	/usr/bin/php "$(dirname $0)/php/replace-changelog.php"
+
 }
 
 # Bumps a version number

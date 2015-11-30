@@ -9,11 +9,45 @@ $changelog = array_slice( $changelog, 2 );
 $changelog = join( PHP_EOL, $changelog );
 
 // add padding
-$changelog = PHP_EOL . PHP_EOL . $changelog . PHP_EOL . PHP_EOL;
+$changelog =  PHP_EOL . $changelog . PHP_EOL;
 
-// replace changelog
-$readme = file_get_contents( 'readme.txt' );
-$new_readme = preg_replace( '/(== Changelog ==)(.|\n)+?(?=== )/', '$1 ' . $changelog, $readme );
+// create backup file and open files for reading & writing.
+rename( 'readme.txt', 'readme.txt.bak' );
+$reading = fopen('readme.txt.bak', 'r');
+$writing = fopen('readme.txt', 'w');
+$in_changelog_section = false;
+$changelog_written = false;
 
-echo $new_readme;
-file_put_contents( 'readme.txt', $new_readme );
+// read old changelog until end of file
+while( ! feof( $reading ) ) {
+ 	$line = fgets( $reading );
+
+ 	if( ! $changelog_written && ! $in_changelog_section ) {
+ 			$in_changelog_section = stristr( $line, '== Changelog ==' );
+ 	} elseif( $in_changelog_section ) {
+
+ 			// skip everything until next major section
+ 			if( ! stristr( $line, '== ' ) ) {
+ 					continue;
+ 			}
+
+			// write new changelog & continue
+			fputs( $writing, $changelog );
+			$changelog_written = true;
+			$in_changelog_section = false;
+ 	}
+
+ 	// default to just copying the line
+ 	fputs( $writing, $line );
+}
+
+// if we're at eof and we haven't replaced changelog yet, just append.
+if( ! $changelog_written ) {
+	fputs( $writing, $changelog );
+}
+
+fclose($reading);
+fclose($writing);
+
+// remove backup file
+unlink('readme.txt.bak');
