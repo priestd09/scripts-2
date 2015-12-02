@@ -1,11 +1,19 @@
 #!/bin/bash
 
-#########################################
-# Prepares a plugin package for release #
-#########################################
-
-# Usage: wp-plugin-package $DIR $VERSION $DESTINATION
-# Example: wp-plugin-package . 1.0 ~/releases
+#
+# Create release package
+#
+# Usage: wp-package $DIR $VERSION $DESTINATION
+# Example: wp-package . 1.0 ~/releases
+#
+# This creates an optimized .zip package out of a Git managed plugin directory.
+#
+# - Builds language files
+# - Builds assets (Grunt or Gulp)
+# - Builds optimized autoloader (Composer)
+# - Bumps version in readme.txt, main plugin file and .json files to specified version
+# - Creates archive using .gitattributes to ignore development files.
+#
 
 PLUGIN_DIRECTORY=$1
 VERSION=$2

@@ -1,6 +1,13 @@
 #!/usr/bin/php
 <?php
 
+#
+# Usage: wp-update-changelog (from plugin directory)
+#
+# This takes a CHANGELOG.md file
+# then copies over content to == Changelog == section in readme.txt file
+#
+
 $files = array( 'CHANGELOG.md', 'readme.txt' );
 foreach( $files as $file ) {
 	if( ! file_exists( $file ) ) {

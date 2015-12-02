@@ -1,6 +1,22 @@
 #!/bin/bash
 PACKAGE=$1
 
+#
+# Publish plugin package to WordPress.org
+#
+# Usage: wp-release-org $PACKAGE
+# Example: wp-release-org plugin.zip
+#
+# This takes a .zip package and then does the following
+#
+# - Extracts plugin slug & version number from package
+# - Checkout or update SVN repository
+# - Add changes to trunk
+# - Create version tag
+# - Commit back to WordPress.org SVN repository
+#
+#
+#
 # Require at least 1 parameter: Package
 if [ "$#" -lt 1 ]; then
     echo "1 parameters expected, $# found"
