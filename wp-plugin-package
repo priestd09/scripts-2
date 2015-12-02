@@ -28,7 +28,10 @@ DEST=${3:-".."}
 DEST="$DEST/$PLUGIN_NAME-$VERSION.zip"
 
 # Build all the things, then bump version
-dvkf update-changelog
+if [[ -e "readme.txt" ]]; then
+	dvkf update-changelog
+fi;
+
 dvkf build-language-files
 dvkf build-assets
 dvkf build-autoloader
