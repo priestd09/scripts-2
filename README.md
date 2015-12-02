@@ -5,12 +5,16 @@ A collection of scripts I use repeatedly.
 ## Installation
 
 1. Clone repository
-1. Add entire folder to your `$PATH` variable.
+2. Add entire folder to your `$PATH` variable.
 ```shell
 echo '# scripts.sh (https://github.com/dannyvankooten/scripts.sh)' >> ~/.bash_profile
 echo 'export PATH="~/Scripts:$PATH"' >> ~/.bash_profile
 ```
-1. Enjoy.
+3. Make sure all scripts are executable
+```shell
+chmod +x ~/Scripts/*
+```
+4. Enjoy.
 
 ## Usage
 
@@ -19,8 +23,8 @@ echo 'export PATH="~/Scripts:$PATH"' >> ~/.bash_profile
 This takes a Git repository, builds all assets, languages & an optimized autoloader, changes the version to the specified version and then creates a stripped-down .zip package for distribution.
 
 ```shell
-# wp-plugin-package $PLUGIN_DIRECTORY $VERSION $DESTINATION
-wp-plugin-package . 1.0 ~/releases
+# wp-package $PLUGIN_DIRECTORY $VERSION $DESTINATION
+wp-package . 1.0 ~/releases
 ```
 
 #### Release WordPress plugin to .org SVN
@@ -28,8 +32,8 @@ wp-plugin-package . 1.0 ~/releases
 This will automatically extract the plugin name and version number from the given package.
 
 ```shell
-# wp-plugin-release-org $PACKAGE
-wp-plugin-release-org ~/releases/mailchimp-for-wp-3.0.zip
+# wp-release-org $PACKAGE
+wp-release-org ~/releases/mailchimp-for-wp-3.0.zip
 ```
 
 #### Bump version
@@ -37,8 +41,8 @@ wp-plugin-release-org ~/releases/mailchimp-for-wp-3.0.zip
 This bumps the version number in the main plugin file, `readme.txt` and `*.json`.
 
 ```shell
-# dvkf bump-version $VERSION
-dvkf bump-version 1.0.1
+# wp-bump-version $VERSION
+wp-bump-version 1.0.1
 ```
 
 #### Run default Gulp/Grunt tasks
@@ -46,7 +50,7 @@ dvkf bump-version 1.0.1
 Installs NPM deps (if needed) and runs Gulp or Grunt.
 
 ```shell
-dvkf build-assets
+dvk-build assets
 ```
 
 #### Update language files
@@ -54,7 +58,7 @@ dvkf build-assets
 Pulls updated language files from Transifex and creates `.mo` files out of it.
 
 ```shell
-dvkf build-language-files
+dvk-build languages
 ```
 
 #### Create optimized autoloader
@@ -62,19 +66,11 @@ dvkf build-language-files
 Removes all developer dependencies and creates an optimized autoloader.
 
 ```shell
-dvkf build-autoloader
-```
-
-#### Add all previously auto-generated files to Git
-
-Adds assets, languages & autoloader to Git.
-
-```shell
-dvkf gitadd
+dvk-build autoloader
 ```
 
 #### Copy `CHANGELOG.md` to `readme.txt` changelog section.
 
 ```shell
-dvkf update-changelog
+wp-update-changelog
 ```
