@@ -1,17 +1,24 @@
 #!/bin/bash
 
 # Bumps a version number
-# Usage: bump-version 3.0.0
-bump-version()
-{
-	VERSION=$1
+# Usage: wp-bump-version 3.0.0
 
-	# Bump version in readme.txt, *.json en ./*.php files
-	sed -i.bak "s/Stable tag: .*/Stable tag: $VERSION/g" readme.txt
-	sed -i.bak "s/\"version\": .*/\"version\": \"$VERSION\",/g" *.json
-	sed -i.bak "s/define( '\(.*\)_VERSION', .*/define( '\1_VERSION', '$VERSION' );/g; s/Version: .*/Version: $VERSION/g" *.php
-		rm *.bak
+# Require at least 1 parameter: Version
+if [ "$#" -lt 1 ]; then
+    echo "At least 1 parameter expected, $# found"
+    exit 1;
+fi
 
-	git add readme.txt *.json *.php
-	git commit -m "Version bump to v$VERSION"
-}
+VERSION=$1
+
+# Bump version in readme.txt, *.json en ./*.php files
+sed -i.bak "s/Stable tag: .*/Stable tag: $VERSION/g" readme.txt
+sed -i.bak "s/define( '\(.*\)_VERSION', .*/define( '\1_VERSION', '$VERSION' );/g; s/Version: .*/Version: $VERSION/g" *.php
+sed -i.bak "s/\"version\": .*/\"version\": \"$VERSION\",/g" *.json
+
+# Remove backup files
+rm *.bak
+
+# Add change to Git
+git add readme.txt *.php *.json
+git commit -m "Version bump to v$VERSION"
