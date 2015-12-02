@@ -83,3 +83,7 @@ dvk-build autoloader
 ```shell
 wp-update-changelog
 ```
+
+## License
+
+This project is licensed under the terms of the MIT license.
