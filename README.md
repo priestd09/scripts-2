@@ -5,18 +5,24 @@ A collection of scripts I use repeatedly.
 ## Installation
 
 1. Clone repository
+
     ```shell
     git clone git@github.com:dannyvankooten/scripts.sh.git ~/Scripts
     ```
+
 2. Add folder to your `$PATH` variable, so commands can be used globally
+
     ```shell
     echo '# scripts.sh (https://github.com/dannyvankooten/scripts.sh)' >> ~/.bash_profile
     echo 'export PATH="~/Scripts:$PATH"' >> ~/.bash_profile
     ```
+
 3. Make sure all scripts are executable
+
     ```shell
     chmod +x ~/Scripts/*
     ```
+
 4. Enjoy!
 
 ## Usage
