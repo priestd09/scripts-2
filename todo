@@ -1,0 +1,17 @@
+#!/usr/bin/python
+
+import todoist
+import os
+import argparse
+
+# Env vars
+todoist_api_key = os.environ.get('TODOIST_API_KEY')
+
+# Arguments
+parser = argparse.ArgumentParser(description='Add an item to your Todoist Inbox')
+parser.add_argument('text', help='Item text')
+args = parser.parse_args()
+
+api = todoist.TodoistAPI(todoist_api_key)
+item = api.items.add(args.text, 0)
+api.commit()
