@@ -11,9 +11,13 @@ languages()
 	if [[ -d "languages" ]]; then
 		for file in `find languages/. -name "*.po"` ; do msgfmt -o ${file/.po/.mo} $file; done
 
-		git add languages/.
-		git commit -m "updated languages"
+      if [[ -e ".git" ]]; then
+         git add languages/.
+         git commit -m "updated languages"
+      fi;
 	fi;
+
+
 }
 
 # Builds assets using Gulp or Grunt
@@ -35,8 +39,10 @@ assets()
 		grunt
 	fi
 
-	git add assets/.
-	git commit -m "updated assets"
+   if [[ -e ".git" ]]; then
+   	git add assets/.
+   	git commit -m "updated assets"]
+   fi;
 }
 
 # Creates the Composer autoloader
@@ -46,7 +52,7 @@ autoloader()
 	# Run Composer
 	if [ -e composer.json ]; then
 			# Make sure dev-dependencies are not installed
-			if [ -d vendor/phpunit ]; then composer update --no-dev --prefer-dist --optimize-autoloader; fi;
+			composer update --no-dev --prefer-dist --optimize-autoloader
 
 			git add vendor/.
 			git commit -m "updated autoloader"

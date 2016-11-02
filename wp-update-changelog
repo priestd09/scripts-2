@@ -11,7 +11,7 @@
 $files = array( 'CHANGELOG.md', 'readme.txt' );
 foreach( $files as $file ) {
 	if( ! file_exists( $file ) ) {
-			printf( "%s does not exist", $file );
+			printf( "%s does not exist" . PHP_EOL, $file );
 			exit(1);
 	}
 }

@@ -28,5 +28,7 @@ sed -i.bak "s/\"version\": .*/\"version\": \"$VERSION\",/g" *.json
 rm *.bak
 
 # Add change to Git
-git add readme.txt *.php *.json
-git commit -m "Version bump to v$VERSION"
+if [[ -e ".git" ]]; then
+   git add readme.txt *.php *.json
+   git commit -m "Version bump to v$VERSION"
+fi;
