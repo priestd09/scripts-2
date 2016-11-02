@@ -5,8 +5,16 @@
 languages()
 {
 	if [[ -e ".tx/config" ]]; then
-		tx pull
-	fi
+
+	    # Check if "tx" command is installed.
+        if [[ $(command -v tx >/dev/null 2>&1)  ]]; then
+
+               # Pull-in languages
+               tx pull
+        else
+               echo "Transifex CLI client is needed to pull in updated languages. See http://docs.transifex.com/client/"
+        fi;
+	fi;
 
 	if [[ -d "languages" ]]; then
 		for file in `find languages/. -name "*.po"` ; do msgfmt -o ${file/.po/.mo} $file; done
