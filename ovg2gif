@@ -1,0 +1,16 @@
+#!/bin/bash
+
+OGV=$1
+TMPDIR=`mktemp -d`
+
+# Convert video to images
+mplayer -ao null $OGV -vo jpeg:outdir=$TMPDIR
+
+# Convert images to GIF
+convert $TMPDIR/* $OGV-unoptimized.gif
+
+# Optimize gif
+convert $OGV-unoptimized.gif -fuzz 10% -layers Optimize $OGV.gif
+
+# Remove unoptimized version
+rm $OGV-unoptimized.gif
