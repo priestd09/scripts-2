@@ -35,7 +35,7 @@ unzip -o "$PACKAGE" -d /tmp/plugin > /dev/null
 cd /tmp/plugin/*
 
 # find name & version number
-PLUGIN_DIR=$(PWD);
+PLUGIN_DIR="$PWD"
 NAME=${PWD##*/}
 VERSION=$(cat *.php | grep "^Version: \(.*\)" | tr ' ' '\n' | tail -1)
 
@@ -54,7 +54,8 @@ if [ "$CONFIRM" != "y" ]; then
 fi;
 
 # Get ready for SVN checkout
-SVN_DIR="$HOME/wp-plugins-svn/$NAME";
+mkdir -p "$HOME/.wp-plugins-svn"
+SVN_DIR="$HOME/.wp-plugins-svn/$NAME";
 SVN_REPO="http://plugins.svn.wordpress.org/$NAME";
 
 # Checkout SVN folder structure
@@ -74,6 +75,7 @@ cd "$SVN_DIR";
 svn upgrade
 
 # Update trunk
+echo "Updating trunk"
 svn update trunk --set-depth infinity
 
 # Add our changes to ./trunk
