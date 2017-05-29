@@ -7,7 +7,7 @@ languages()
 	if [[ -e ".tx/config" ]]; then
 
 	    # Check if "tx" command is installed.
-        if [[ $(command -v tx >/dev/null 2>&1)  ]]; then
+        if [[ $(command -v tx 2>&1)  ]]; then
 
                # Pull-in languages
                tx pull
